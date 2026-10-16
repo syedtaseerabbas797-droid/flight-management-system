@@ -32,6 +32,12 @@ coverage.xml
 *.swp
 *.swo
 
+# Node / Frontend
+node_modules/
+dist/
+.vite/
+
 # MacOS / OS specific
 .DS_Store
 Thumbs.db
+

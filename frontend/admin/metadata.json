@@ -1,0 +1,6 @@
+{
+  "name": "AeroNexus Operations Console",
+  "description": "Aviation telemetry & flight operations cockpit with Sabre-style dispatch grid, waitlist clearing desk, client booking portal, and AI concierge.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

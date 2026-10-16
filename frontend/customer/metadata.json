@@ -1,0 +1,6 @@
+{
+  "name": "AeroNexus Aviation - Dual Flight & Operations Suite",
+  "description": "Next-Generation Flight Booking Portal and Operations Console with real-time sector dispatch telemetrics, algorithmic fare holds, and AI Concierge.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

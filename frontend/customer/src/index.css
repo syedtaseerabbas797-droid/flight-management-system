@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-space: 'Space Grotesk', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+}
+
+.font-display-hero {
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-headline {
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.font-code-telemetry {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.01em;
+}
+
+.font-label-caps {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+/* Custom crisp scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f3f4f3;
+}
+::-webkit-scrollbar-thumb {
+  background: #c4c6ce;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #74777e;
+}

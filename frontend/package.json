@@ -1,0 +1,11 @@
+{
+  "name": "aeronexus-frontend-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev:customer": "npm --prefix customer run dev",
+    "dev:admin": "npm --prefix admin run dev",
+    "build:customer": "npm --prefix customer run build",
+    "build:admin": "npm --prefix admin run build"
+  }
+}

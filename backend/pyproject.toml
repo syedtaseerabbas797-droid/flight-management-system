@@ -1,0 +1,26 @@
+[project]
+name = "aeronexus-flight-backend"
+version = "1.0.0"
+description = "FastAPI Cloud & Vercel production-ready Flight Management System"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.111.0",
+    "uvicorn[standard]>=0.29.0",
+    "sqlalchemy>=2.0.30",
+    "asyncpg>=0.29.0",
+    "python-dotenv>=1.0.1",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.2.1",
+    "alembic>=1.13.1",
+    "apscheduler>=3.10.4",
+    "bcrypt>=5.0.0",
+    "pyjwt[crypto]>=2.15.0",
+    "cryptography>=50.0.0",
+    "pyotp>=2.10.0",
+    "groq>=0.9.0",
+    "httpx>=0.27.0"
+]
+
+[tool.fastapi]
+entrypoint = "app.main:app"
