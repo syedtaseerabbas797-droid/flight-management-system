@@ -15,7 +15,7 @@ async def checkin_reminders_job():
     now = datetime.now(timezone.utc)
     target_start = now + timedelta(hours=23, minutes=30)
     target_end = now + timedelta(hours=24, minutes=30)
-    
+
     async with AsyncSessionLocal() as session:
         stmt = (
             select(Booking, Flight)
@@ -24,10 +24,10 @@ async def checkin_reminders_job():
             .where(Flight.departure_time <= target_end)
             .where(Booking.status == BookingStatus.confirmed)
         )
-        
+
         result = await session.execute(stmt)
         rows = result.all()
-        
+
         for booking, flight in rows:
             body = (
                 f"Hello {booking.passenger_name},\n\n"
@@ -36,11 +36,12 @@ async def checkin_reminders_job():
                 "Please ensure you check in online to receive your boarding pass!\n\n"
                 "Safe travels!"
             )
-            
+
             fake_email = f"{booking.passenger_name.replace(' ', '.').lower()}@example.com"
-            asyncio.create_task(asyncio.to_thread(
+            # Use to_thread directly — safe in APScheduler async context
+            await asyncio.to_thread(
                 send_transactional_email,
                 to_email=fake_email,
                 subject=f"Check-in Reminder: Flight {flight.flight_number}",
-                body=body
-            ))
+                body=body,
+            )

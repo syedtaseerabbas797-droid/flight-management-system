@@ -67,9 +67,9 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 # ---------------------------------------------------------------------------
 
 app = FastAPI(
-    title="Flight Management System API",
+    title="AeroNexus Flight Management System API",
     description=(
-        "Capstone project — Admin & Passenger APIs for managing flights, "
+        "AeroNexus Aviation Suite — Admin & Passenger APIs for managing flights, "
         "seat inventories, bookings, and waitlists."
     ),
     version="1.0.0",
@@ -107,9 +107,21 @@ app.include_router(ai_chat_router, prefix="/api/v1")
 
 
 # ---------------------------------------------------------------------------
-# Health-check
+# Root & Health-check
 # ---------------------------------------------------------------------------
+
+@app.get("/", tags=["Root"], summary="API Root status")
+async def root() -> dict[str, str]:
+    return {
+        "status": "online",
+        "app": "AeroNexus Flight Management System API",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/health",
+    }
+
 
 @app.get("/health", tags=["Health"], summary="Service health check")
 async def health() -> dict[str, str]:
     return {"status": "ok"}
+

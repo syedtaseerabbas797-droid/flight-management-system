@@ -8,7 +8,9 @@ Re-exports all ORM models so that:
 """
 
 from app.db.models.booking import Booking
+from app.db.models.email_draft import EmailDraft
 from app.db.models.flight import Flight
+from app.db.models.ops_report import OpsReport
 from app.db.models.seat_inventory import SeatInventory
 from app.db.models.waitlist import Waitlist
 from app.db.models.user import User
@@ -21,6 +23,8 @@ __all__ = [
     "Flight",
     "SeatInventory",
     "Booking",
+    "EmailDraft",
+    "OpsReport",
     "Waitlist",
     "User",
     "UserProfile",

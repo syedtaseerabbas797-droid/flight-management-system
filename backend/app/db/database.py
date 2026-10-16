@@ -26,10 +26,23 @@ from sqlalchemy.ext.asyncio import (
 
 load_dotenv()
 
-# ---------------------------------------------------------------------------
-# Engine
-# ---------------------------------------------------------------------------
-DATABASE_URL: str = os.environ["DATABASE_URL"]
+raw_url = os.environ.get("DATABASE_URL", "").strip()
+
+# Neon, Render, Supabase, and FastAPICloud often supply postgres:// or postgresql://
+if not raw_url:
+    # Safe fallback so app can be imported during verification, linting, and build steps
+    raw_url = "postgresql+asyncpg://postgres:postgres@localhost:5432/flight_db"
+elif raw_url.startswith("postgres://"):
+    raw_url = raw_url.replace("postgres://", "postgresql+asyncpg://", 1)
+elif raw_url.startswith("postgresql://") and not raw_url.startswith("postgresql+asyncpg://"):
+    raw_url = raw_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+# asyncpg expects ssl=require rather than sslmode=require
+if "sslmode=require" in raw_url:
+    raw_url = raw_url.replace("sslmode=require", "ssl=require")
+
+DATABASE_URL: str = raw_url
+
 # Neon Postgres requires SSL; asyncpg reads it from the query string.
 # pool_pre_ping keeps the pool healthy across Neon's aggressive idle timeouts.
 engine = create_async_engine(
