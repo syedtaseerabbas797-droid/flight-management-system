@@ -24,3 +24,13 @@ dependencies = [
 
 [tool.fastapi]
 entrypoint = "main:app"
+
+[tool.setuptools]
+# Explicitly tell setuptools where to find packages — prevents
+# "Multiple top-level packages" error when both backend/ and frontend/ exist
+package-dir = {"" = "backend"}
+
+[tool.setuptools.packages.find]
+where = ["backend"]
+include = ["app*"]
+exclude = ["frontend*", "venv*", "*.egg-info"]
