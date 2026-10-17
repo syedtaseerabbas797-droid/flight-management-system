@@ -339,9 +339,9 @@ export default function App() {
 
       {/* Floating Notification Toast */}
       {toastMsg && (
-        <div className="fixed top-16 right-6 z-50 bg-[#0a2540] text-white px-4 py-2.5 rounded shadow-xl flex items-center gap-3 text-xs font-medium border border-[#74777e]/30 animate-in fade-in slide-in-from-top-3 duration-200">
-          <Info className="w-4 h-4 text-[#5095fe]" />
-          <span>{toastMsg}</span>
+        <div className="fixed top-16 left-4 right-4 sm:left-auto sm:right-6 z-50 bg-[#0a2540] text-white px-3 sm:px-4 py-2.5 rounded shadow-xl flex items-center gap-2 sm:gap-3 text-xs font-medium border border-[#74777e]/30 animate-in fade-in slide-in-from-top-3 duration-200 max-w-sm sm:max-w-md">
+          <Info className="w-4 h-4 text-[#5095fe] flex-shrink-0" />
+          <span className="line-clamp-3">{toastMsg}</span>
         </div>
       )}
 
@@ -349,19 +349,20 @@ export default function App() {
       {currentView === 'b2c' ? (
         <main className="flex-1 flex flex-col">
           {/* Hero Banner with Surgical Architectural Accent */}
-          <section className="relative bg-white border-b border-[#c4c6ce] pt-10 pb-12 px-6">
+          <section className="relative bg-white border-b border-[#c4c6ce] pt-6 sm:pt-10 pb-8 sm:pb-12 px-4 sm:px-6">
             <div className="max-w-6xl mx-auto">
-              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#d7e3ff] text-[#001b3e] text-xs font-semibold font-label-caps uppercase mb-3">
+                  <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#d7e3ff] text-[#001b3e] text-[10px] sm:text-xs font-semibold font-label-caps uppercase mb-3">
                     <span className="material-symbols-outlined text-[14px]">format_image_left</span>
-                    IATA Registered Fleet • 99.98% Telemetry Dispatch
+                    <span className="hidden sm:inline">IATA Registered Fleet • 99.98% Telemetry Dispatch</span>
+                    <span className="sm:hidden">IATA Fleet • 99.98% Dispatch</span>
                   </div>
-                  <h1 className="font-display-hero text-3xl sm:text-4xl md:text-5xl text-[#000f22] font-semibold tracking-tight leading-tight">
+                  <h1 className="font-display-hero text-2xl sm:text-4xl md:text-5xl text-[#000f22] font-semibold tracking-tight leading-tight">
                     Next-Generation Flight Booking &amp;
                     <br className="hidden md:inline" /> Aviation Operations
                   </h1>
-                  <p className="text-sm sm:text-base text-[#43474d] mt-2 max-w-2xl leading-relaxed">
+                  <p className="text-xs sm:text-sm md:text-base text-[#43474d] mt-2 max-w-2xl leading-relaxed">
                     Engineered with sub-second live cabin inventory, algorithmic fare holds, and real-time transponder route fidelity.
                   </p>
                 </div>
@@ -403,7 +404,7 @@ export default function App() {
           </section>
 
           {/* Flight Search Results Section */}
-          <section className="py-10 px-6 max-w-6xl mx-auto w-full" id="results-section">
+          <section className="py-6 sm:py-10 px-4 sm:px-6 max-w-6xl mx-auto w-full" id="results-section">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between pb-4 border-b border-[#c4c6ce] mb-6 gap-2">
               <div>
                 <div className="flex items-center gap-2">
@@ -452,8 +453,8 @@ export default function App() {
           <FeatureCards />
 
           {/* Flight Status Quick Checker */}
-          <section className="py-10 px-6 max-w-6xl mx-auto w-full">
-            <div className="bg-white border border-[#c4c6ce] rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+          <section className="py-6 sm:py-10 px-4 sm:px-6 max-w-6xl mx-auto w-full">
+            <div className="bg-white border border-[#c4c6ce] rounded-xl p-4 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6 shadow-xs">
               <div>
                 <h4 className="font-headline text-base text-[#000f22] font-semibold">
                   Need Instant Flight Status?
@@ -501,16 +502,16 @@ export default function App() {
 
       {/* Shared Footer */}
       <footer className="bg-white text-[#000f22] border-t border-[#c4c6ce] mt-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center w-full px-8 py-6 gap-4">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col md:flex-row justify-between items-center w-full px-4 sm:px-8 py-4 sm:py-6 gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left">
             <span className="font-headline text-base font-bold text-[#000f22]">
               AeroNexus
             </span>
-            <span className="text-xs text-[#43474d]">
-              © 2026 AeroNexus Systems Inc. Aviation Telemetry &amp; Operations Infrastructure.
+            <span className="text-[10px] sm:text-xs text-[#43474d]">
+              © 2026 AeroNexus Systems Inc.
             </span>
           </div>
-          <div className="flex flex-wrap items-center gap-6 text-xs font-label-caps text-[#43474d]">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-[10px] sm:text-xs font-label-caps text-[#43474d]">
             <button
               type="button"
               className="hover:text-[#000f22] transition-colors cursor-pointer"
@@ -536,16 +537,7 @@ export default function App() {
                 triggerToast('GDS API v2.4 (Amadeus/Sabre) Status: Operational (Latency 12ms)')
               }
             >
-              GDS API Integration
-            </button>
-            <button
-              type="button"
-              className="hover:text-[#000f22] transition-colors cursor-pointer"
-              onClick={() =>
-                triggerToast('UTC Transponder Beacon: All 4 Ground Stations Synchronized.')
-              }
-            >
-              System Status (UTC)
+              GDS API
             </button>
           </div>
         </div>

@@ -84,7 +84,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-[#0a2540]/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-xl border border-[#c4c6ce] p-6 max-w-xl w-full shadow-2xl relative my-8 animate-in fade-in zoom-in duration-200">
+      <div className="bg-white rounded-xl border border-[#c4c6ce] p-4 sm:p-6 max-w-xl w-full shadow-2xl relative my-4 sm:my-8 animate-in fade-in zoom-in duration-200 max-h-[95vh] overflow-y-auto">
         {/* Modal Close Button */}
         <button
           type="button"
@@ -378,7 +378,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             </div>
 
             {/* Modal Bottom Buttons */}
-            <div className="flex justify-end gap-2 pt-2 border-t border-[#c4c6ce]/60">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 pt-2 border-t border-[#c4c6ce]/60">
               <button
                 type="button"
                 className="px-4 py-2 border border-[#c4c6ce] text-xs font-semibold rounded text-[#43474d] hover:bg-[#f3f4f3] transition-colors cursor-pointer"

@@ -55,7 +55,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-[#000f22]/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl border border-[#c4c6ce] max-w-2xl w-full shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-150">
+      <div className="bg-white rounded-xl border border-[#c4c6ce] max-w-2xl w-full shadow-2xl flex flex-col max-h-[95vh] sm:max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-150">
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-[#c4c6ce] flex items-center justify-between bg-[#f8f9fa]">
           <div className="flex items-center gap-2.5">
@@ -81,7 +81,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-[#c4c6ce] px-5 bg-white text-xs font-semibold gap-6">
+        <div className="flex border-b border-[#c4c6ce] px-3 sm:px-5 bg-white text-xs font-semibold gap-3 sm:gap-6 overflow-x-auto">
           <button
             type="button"
             onClick={() => setActiveTab('basic')}

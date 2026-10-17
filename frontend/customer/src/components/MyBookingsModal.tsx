@@ -59,7 +59,7 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-[#000f22]/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl border border-[#c4c6ce] max-w-3xl w-full shadow-2xl flex flex-col max-h-[85vh] overflow-hidden animate-in zoom-in-95 duration-150">
+      <div className="bg-white rounded-xl border border-[#c4c6ce] max-w-3xl w-full shadow-2xl flex flex-col max-h-[95vh] sm:max-h-[85vh] overflow-hidden animate-in zoom-in-95 duration-150">
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-[#c4c6ce] flex items-center justify-between bg-[#f8f9fa]">
           <div className="flex items-center gap-2.5">
@@ -85,15 +85,15 @@ export const MyBookingsModal: React.FC<MyBookingsModalProps> = ({
         </div>
 
         {/* Notice Strip */}
-        <div className="bg-[#fff8e1] border-b border-[#ffe082] px-5 py-2.5 flex items-center gap-2 text-xs text-[#b78103]">
-          <AlertTriangle className="w-4 h-4 shrink-0" />
+        <div className="bg-[#fff8e1] border-b border-[#ffe082] px-3 sm:px-5 py-2 sm:py-2.5 flex items-start sm:items-center gap-2 text-[10px] sm:text-xs text-[#b78103]">
+          <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 sm:mt-0" />
           <span>
-            <strong>Airline Cancellation Policy:</strong> Passengers may self-cancel active tickets up to <strong>4 hours</strong> prior to departure. Within 4 hours, airport clearance applies.
+            <strong>Cancellation Policy:</strong> Self-cancel up to <strong>4 hours</strong> before departure.
           </span>
         </div>
 
         {/* Bookings List */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-3.5">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-3.5">
           {bookings.length === 0 ? (
             <div className="text-center py-12 text-[#74777e]">
               <Plane className="w-12 h-12 mx-auto mb-2 opacity-30 text-[#005cba]" />

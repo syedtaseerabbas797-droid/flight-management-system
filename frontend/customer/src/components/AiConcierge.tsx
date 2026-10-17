@@ -106,7 +106,7 @@ export const AiConcierge: React.FC<AiConciergeProps> = ({
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40">
       {/* Collapsed Trigger Floating Button */}
       {!isOpen && (
         <button
@@ -130,7 +130,7 @@ export const AiConcierge: React.FC<AiConciergeProps> = ({
 
       {/* Expanded Floating Chat Window */}
       {isOpen && (
-        <div className="w-84 sm:w-96 bg-white border border-[#c4c6ce] rounded-xl shadow-2xl overflow-hidden flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-200">
+        <div className="fixed inset-0 sm:relative sm:inset-auto w-full h-full sm:w-80 md:w-96 bg-white border border-[#c4c6ce] sm:rounded-xl shadow-2xl overflow-hidden flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-200 sm:max-h-[80vh]">
           {/* Header */}
           <div className="bg-[#0a2540] text-white px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
@@ -184,7 +184,7 @@ export const AiConcierge: React.FC<AiConciergeProps> = ({
           </div>
 
           {/* Chat Stream */}
-          <div className="p-3 space-y-3 h-72 overflow-y-auto text-xs bg-[#f9f9f8]">
+          <div className="p-3 space-y-3 flex-1 sm:h-72 sm:flex-none overflow-y-auto text-xs bg-[#f9f9f8]">
             {messages.map((m) => (
               <div
                 key={m.id}

@@ -83,24 +83,24 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
   return (
     <main className="flex-1 flex flex-col bg-[#f3f4f3] min-h-[calc(100vh-3.5rem)] animate-in fade-in duration-150">
       {/* Console Sub-Header & Telemetry KPI Strip */}
-      <div className="bg-white border-b border-[#c4c6ce] px-6 py-4">
+      <div className="bg-white border-b border-[#c4c6ce] px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
               <span className="px-2 py-0.5 rounded bg-[#0a2540] text-white text-[10px] font-label-caps uppercase font-bold">
                 OPS CONTROL CENTER
               </span>
-              <span className="text-xs font-label-caps text-[#43474d]">
+              <span className="text-[11px] sm:text-xs font-label-caps text-[#43474d]">
                 SECTOR 04 - NORTH ATLANTIC DISPATCH
               </span>
             </div>
-            <h2 className="font-headline text-xl sm:text-2xl font-bold text-[#000f22] tracking-tight mt-1">
+            <h2 className="font-headline text-lg sm:text-2xl font-bold text-[#000f22] tracking-tight mt-1">
               High-Density Flight Dispatch &amp; Manifest Board
             </h2>
           </div>
 
           {/* Telemetry KPIs */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             <div className="bg-[#f3f4f3] border border-[#c4c6ce] rounded p-2.5 min-w-[130px]">
               <span className="text-[10px] font-label-caps text-[#43474d] block uppercase font-bold">
                 Active Fleet
@@ -161,7 +161,7 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
       </div>
 
       {/* Operations Controller Toolbar */}
-      <div className="px-6 py-3 bg-[#eeeeed] border-b border-[#c4c6ce] flex flex-wrap items-center justify-between gap-3">
+      <div className="px-4 sm:px-6 py-2.5 sm:py-3 bg-[#eeeeed] border-b border-[#c4c6ce] flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs font-bold text-[#000f22] uppercase font-label-caps mr-1">
             Filters:
@@ -185,7 +185,7 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="px-3 py-1.5 bg-[#000f22] text-white rounded text-xs font-semibold hover:bg-[#162538] flex items-center gap-1.5 shadow-xs cursor-pointer"
+            className="px-3 py-1.5 bg-[#000f22] text-white rounded text-xs font-semibold hover:bg-[#162538] flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
             onClick={() => setIsAddModalOpen(true)}
           >
             <PlusCircle className="w-3.5 h-3.5" />
@@ -193,19 +193,19 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
           </button>
           <button
             type="button"
-            className="px-3 py-1.5 bg-white border border-[#c4c6ce] hover:border-[#74777e] text-[#000f22] rounded text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
+            className="px-3 py-1.5 bg-white border border-[#c4c6ce] hover:border-[#74777e] text-[#000f22] rounded text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors"
             onClick={() => {
               onShowToast('Radar Sweep Initiated: Transponder signals synced with Shannon & Gander Oceanic Centers.');
             }}
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            <span>Sweep Radar</span>
+            <span className="hidden sm:inline">Sweep Radar</span>
           </button>
         </div>
       </div>
 
       {/* Sabre / Amadeus Inspired Dense Data Table */}
-      <div className="p-6 flex-1">
+      <div className="p-3 sm:p-6 flex-1">
         <div className="bg-white border border-[#c4c6ce] rounded-lg overflow-hidden shadow-xs">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -334,8 +334,8 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
 
       {/* Add Flight Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0a2540]/60 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg border border-[#c4c6ce] p-6 max-w-md w-full shadow-2xl animate-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 bg-[#0a2540]/60 flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-xl border border-[#c4c6ce] p-4 sm:p-6 max-w-md w-full shadow-2xl animate-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <PlusCircle className="w-5 h-5 text-[#000f22]" />
@@ -345,7 +345,7 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
               </div>
               <button
                 type="button"
-                className="text-[#74777e] hover:text-[#000f22]"
+                className="p-1 text-[#74777e] hover:text-[#000f22] cursor-pointer"
                 onClick={() => setIsAddModalOpen(false)}
               >
                 <X className="w-5 h-5" />
@@ -353,7 +353,7 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
             </div>
 
             <form onSubmit={handleCreateFlight} className="space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[10px] font-label-caps uppercase text-[#43474d] mb-1 font-bold">
                     Flight Number
@@ -364,7 +364,7 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
                     value={newFlightNo}
                     onChange={(e) => setNewFlightNo(e.target.value)}
                     placeholder="e.g. AP-512"
-                    className="w-full text-xs font-code-telemetry px-2.5 py-1.5 border border-[#c4c6ce] rounded text-[#000f22]"
+                    className="w-full text-xs font-code-telemetry px-2.5 py-2 border border-[#c4c6ce] rounded text-[#000f22]"
                   />
                 </div>
                 <div>
@@ -374,7 +374,7 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
                   <select
                     value={newAircraft}
                     onChange={(e) => setNewAircraft(e.target.value)}
-                    className="w-full text-xs px-2.5 py-1.5 border border-[#c4c6ce] rounded text-[#000f22]"
+                    className="w-full text-xs px-2.5 py-2 border border-[#c4c6ce] rounded text-[#000f22]"
                   >
                     <option>Airbus A350-900</option>
                     <option>Boeing 787-9 Dreamliner</option>
@@ -394,11 +394,11 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
                   value={newSector}
                   onChange={(e) => setNewSector(e.target.value)}
                   placeholder="JFK → CDG"
-                  className="w-full text-xs font-code-telemetry px-2.5 py-1.5 border border-[#c4c6ce] rounded text-[#000f22]"
+                  className="w-full text-xs font-code-telemetry px-2.5 py-2 border border-[#c4c6ce] rounded text-[#000f22]"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[10px] font-label-caps uppercase text-[#43474d] mb-1 font-bold">
                     Departure (UTC)
@@ -409,7 +409,7 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
                     value={newDepTime}
                     onChange={(e) => setNewDepTime(e.target.value)}
                     placeholder="18:45 UTC"
-                    className="w-full text-xs font-code-telemetry px-2.5 py-1.5 border border-[#c4c6ce] rounded text-[#000f22]"
+                    className="w-full text-xs font-code-telemetry px-2.5 py-2 border border-[#c4c6ce] rounded text-[#000f22]"
                   />
                 </div>
                 <div>
@@ -422,7 +422,7 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
                     value={newGate}
                     onChange={(e) => setNewGate(e.target.value)}
                     placeholder="B22 / T4"
-                    className="w-full text-xs font-code-telemetry px-2.5 py-1.5 border border-[#c4c6ce] rounded text-[#000f22]"
+                    className="w-full text-xs font-code-telemetry px-2.5 py-2 border border-[#c4c6ce] rounded text-[#000f22]"
                   />
                 </div>
               </div>
@@ -436,21 +436,21 @@ export const OperationsConsole: React.FC<OperationsConsoleProps> = ({
                   value={newPrice}
                   onChange={(e) => setNewPrice(e.target.value)}
                   placeholder="1750"
-                  className="w-full text-xs font-code-telemetry px-2.5 py-1.5 border border-[#c4c6ce] rounded text-[#000f22]"
+                  className="w-full text-xs font-code-telemetry px-2.5 py-2 border border-[#c4c6ce] rounded text-[#000f22]"
                 />
               </div>
 
               <div className="flex justify-end gap-2 pt-3 border-t border-[#c4c6ce]/60">
                 <button
                   type="button"
-                  className="px-3 py-1.5 border border-[#c4c6ce] text-xs font-semibold rounded text-[#43474d]"
+                  className="px-3.5 py-2 border border-[#c4c6ce] text-xs font-semibold rounded text-[#43474d] cursor-pointer hover:bg-[#f3f4f3]"
                   onClick={() => setIsAddModalOpen(false)}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-[#000f22] text-white text-xs font-semibold rounded hover:bg-[#162538]"
+                  className="px-4 py-2 bg-[#000f22] text-white text-xs font-semibold rounded hover:bg-[#162538] cursor-pointer transition-colors"
                 >
                   Inject Flight Plan
                 </button>

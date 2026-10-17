@@ -222,7 +222,7 @@ function parseJwt(token: string) {
 
   return (
     <div className="fixed inset-0 z-50 bg-[#000f22]/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl border border-[#c4c6ce] p-6 sm:p-7 max-w-md w-full shadow-2xl animate-in zoom-in-95 duration-150 relative">
+      <div className="bg-white rounded-2xl border border-[#c4c6ce] p-5 sm:p-7 max-w-md w-full shadow-2xl animate-in zoom-in-95 duration-150 relative max-h-[95vh] overflow-y-auto">
         {/* Close Button */}
         <button
           type="button"
@@ -429,7 +429,7 @@ function parseJwt(token: string) {
         {mode === 'otp' && (
           <form onSubmit={handleVerifyOtp} className="space-y-4 text-xs">
             {/* 6 Digit Inputs */}
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center gap-1.5 sm:gap-2">
               {otpCode.map((digit, idx) => (
                 <input
                   key={idx}
@@ -439,7 +439,7 @@ function parseJwt(token: string) {
                   value={digit}
                   onChange={(e) => handleOtpInput(e.target.value, idx)}
                   onKeyDown={(e) => handleOtpKeyDown(e, idx)}
-                  className="w-11 h-12 text-center text-lg font-bold font-mono border-2 border-[#c4c6ce] rounded-lg focus:border-[#005cba] focus:ring-1 focus:ring-[#005cba] outline-none text-[#000f22] bg-[#f8f9fa]"
+                  className="w-10 h-11 sm:w-11 sm:h-12 text-center text-base sm:text-lg font-bold font-mono border-2 border-[#c4c6ce] rounded-lg focus:border-[#005cba] focus:ring-1 focus:ring-[#005cba] outline-none text-[#000f22] bg-[#f8f9fa]"
                 />
               ))}
             </div>

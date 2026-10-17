@@ -42,10 +42,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     <div className="bg-white rounded-lg border border-[#c4c6ce] p-5 shadow-[0px_4px_20px_-2px_rgba(10,37,64,0.06)]">
       {/* Trip Mode Pills & Guarantees */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-[#c4c6ce]/60">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-1.5 sm:space-x-2">
           <button
             type="button"
-            className={`px-3 py-1 rounded text-xs font-semibold transition-all ${
+            className={`px-2.5 sm:px-3 py-1 rounded text-xs font-semibold transition-all ${
               tripType === 'round'
                 ? 'bg-[#000f22] text-white shadow-xs'
                 : 'text-[#43474d] hover:bg-[#f3f4f3]'
@@ -56,7 +56,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </button>
           <button
             type="button"
-            className={`px-3 py-1 rounded text-xs font-medium transition-all ${
+            className={`px-2.5 sm:px-3 py-1 rounded text-xs font-medium transition-all ${
               tripType === 'oneway'
                 ? 'bg-[#000f22] text-white shadow-xs font-semibold'
                 : 'text-[#43474d] hover:bg-[#f3f4f3]'
@@ -67,7 +67,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </button>
           <button
             type="button"
-            className={`px-3 py-1 rounded text-xs font-medium transition-all ${
+            className={`px-2.5 sm:px-3 py-1 rounded text-xs font-medium transition-all ${
               tripType === 'multi'
                 ? 'bg-[#000f22] text-white shadow-xs font-semibold'
                 : 'text-[#43474d] hover:bg-[#f3f4f3]'
@@ -78,7 +78,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           </button>
         </div>
 
-        <div className="flex items-center gap-4 text-xs text-[#43474d]">
+        {/* Guarantee badges — hidden on small mobile */}
+        <div className="hidden sm:flex items-center gap-3 sm:gap-4 text-xs text-[#43474d]">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-[#005cba]" />
             <span className="font-medium">Instant Ticket Assurance</span>
@@ -112,10 +113,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         </div>
 
         {/* Swap Button */}
-        <div className="md:col-span-1 flex justify-center -my-2 md:my-0">
+        <div className="md:col-span-1 flex justify-center my-0">
           <button
             type="button"
-            className="w-8 h-8 rounded-full border border-[#c4c6ce] bg-[#f3f4f3] hover:bg-[#eeeeed] text-[#000f22] flex items-center justify-center transition-transform duration-200 active:rotate-180 hover:border-[#74777e]"
+            className="w-9 h-9 sm:w-8 sm:h-8 rounded-full border border-[#c4c6ce] bg-[#f3f4f3] hover:bg-[#eeeeed] text-[#000f22] flex items-center justify-center transition-transform duration-200 active:rotate-180 hover:border-[#74777e]"
             onClick={onSwap}
             title="Swap Departure and Arrival"
           >
