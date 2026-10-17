@@ -12,7 +12,7 @@ import { ClientPortal } from './components/ClientPortal';
 import { AiConcierge } from './components/AiConcierge';
 import { AuditDesk } from './components/AuditDesk';
 import { Flight } from './types/aviation';
-import { aviationStore } from './services/api';
+import { aviationStore, API_BASE_URL } from './services/api';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'admin' | 'client'>('admin');
@@ -183,7 +183,7 @@ export default function App() {
             Route Network
           </button>
           <button
-            onClick={() => aviationStore.checkBackendHealth().then((s) => alert(s ? 'Connected to http://localhost:8000/api/v1' : 'API Bridge operating in simulated resilient mode.'))}
+            onClick={() => aviationStore.checkBackendHealth().then((s) => alert(s ? `Connected to ${API_BASE_URL}` : 'API Bridge operating in simulated resilient mode.'))}
             className="hover:text-[#000f22] transition-colors"
           >
             GDS API Integration

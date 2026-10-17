@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { aviationStore } from '../services/api';
+import { aviationStore, API_BASE_URL } from '../services/api';
 
 interface HeaderProps {
   currentView: 'admin' | 'client';
@@ -66,15 +66,15 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onToggleView }) => 
           onClick={() => {
             aviationStore.checkBackendHealth().then((s) => setIsConnected(s));
           }}
-          title="Click to probe http://localhost:8000/api/v1"
-          className={`flex items-center space-x-2 px-2.5 py-1 rounded font-mono text-[10px] font-semibold transition-colors ${
+          title={`Backend API Endpoint: ${API_BASE_URL}`}
+          className={`flex items-center space-x-2 px-2.5 py-1 rounded font-mono text-[10px] font-semibold transition-colors cursor-pointer ${
             isConnected
               ? 'bg-emerald-50 border border-emerald-300 text-emerald-800'
-              : 'bg-emerald-50/80 border border-emerald-200 text-emerald-800 hover:bg-emerald-100'
+              : 'bg-amber-50 border border-amber-300 text-amber-800 hover:bg-amber-100'
           }`}
         >
-          <span className="material-symbols-outlined text-[13px] text-emerald-600">sensors</span>
-          <span>API: CONNECTED [v1 - localhost:8000]</span>
+          <span className={`material-symbols-outlined text-[13px] ${isConnected ? 'text-emerald-600' : 'text-amber-600'}`}>sensors</span>
+          <span>API: {isConnected ? 'CONNECTED [v1]' : 'STANDBY [OFFLINE]'}</span>
         </button>
       </div>
 
