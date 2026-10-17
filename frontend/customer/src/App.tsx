@@ -291,12 +291,30 @@ export default function App() {
     }
   };
 
+  // Cabin pricing config — multipliers relative to Business Suite base
+  const CABIN_CONFIG: Record<string, { label: string; priceMultiplier: number; strikeMult: number }> = {
+    economy:  { label: 'Economy Standard',      priceMultiplier: 0.254, strikeMult: 0.345 },
+    premium:  { label: 'Premium Economy',        priceMultiplier: 0.471, strikeMult: 0.608 },
+    business: { label: 'Business Suite',         priceMultiplier: 1.0,   strikeMult: 1.296 },
+    first:    { label: 'First Class Flagship',   priceMultiplier: 1.825, strikeMult: 2.222 },
+  };
+
   // Sort flights
   const sortedFlights = [...flights].sort((a, b) => {
     if (sortOption === 'lowest') return a.basePrice - b.basePrice;
     if (sortOption === 'departure') return a.depTime.localeCompare(b.depTime);
     return a.duration.localeCompare(b.duration);
   });
+
+  // Apply selected cabin pricing to each flight for display
+  const cabinKey = (cabin || 'business').toLowerCase();
+  const cabinCfg = CABIN_CONFIG[cabinKey] ?? CABIN_CONFIG['business'];
+  const displayFlights = sortedFlights.map((f) => ({
+    ...f,
+    cabin: cabinCfg.label,
+    basePrice: Math.round(f.basePrice * cabinCfg.priceMultiplier),
+    strikePrice: Math.round(f.basePrice * cabinCfg.strikeMult),
+  }));
 
   return (
     <div className="bg-[#f9f9f8] min-h-screen flex flex-col text-[#1a1c1c] selection:bg-[#d7e3ff] selection:text-[#001b3e]">
@@ -417,7 +435,7 @@ export default function App() {
 
             {/* Real-Time Flight Cards Stack */}
             <div className="space-y-4">
-              {sortedFlights
+              {displayFlights
                 .filter((f) => f.originCode === 'JFK' || f.route.includes('JFK'))
                 .map((flight) => (
                   <FlightCard
