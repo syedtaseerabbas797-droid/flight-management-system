@@ -20,12 +20,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   if (!mode || !flight) return null;
 
   // Passenger state
-  const [fullName, setFullName] = useState('Capt. Jordan Hayes');
-  const [passportOrCnic, setPassportOrCnic] = useState('USA • P29810482');
-  const [email, setEmail] = useState('jordan.hayes@aeronexus.aero');
+  const [fullName, setFullName] = useState(() => {
+    const saved = localStorage.getItem('aeronexus_customer_user');
+    return saved ? JSON.parse(saved).name : 'Syed Taseer Abbas';
+  });
+  const [passportOrCnic, setPassportOrCnic] = useState('PK • 8829104A');
+  const [email, setEmail] = useState(() => {
+    const saved = localStorage.getItem('aeronexus_customer_user');
+    return saved ? JSON.parse(saved).email : 'passenger@aeronexus.com';
+  });
   const [seatPreference, setSeatPreference] = useState('04A (Window - Forward)');
-  const [phone, setPhone] = useState('+1 (555) 019-2834');
-  const [specialReq, setSpecialReq] = useState('Low Sodium Airline Meal');
+  const [phone, setPhone] = useState('+92 300 1234567');
+  const [specialReq, setSpecialReq] = useState('Halal Airline Meal');
 
   // Loading & confirmation states
   const [isSubmitting, setIsSubmitting] = useState(false);

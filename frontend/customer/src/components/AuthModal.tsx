@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Mail, User, ShieldCheck, ArrowRight, RotateCw, X, KeyRound, AlertCircle } from 'lucide-react';
+import { Lock, Mail, User, ShieldCheck, ArrowRight, RotateCw, X, KeyRound, AlertCircle, CheckCircle } from 'lucide-react';
+import { authService } from '../services/authService';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -54,39 +55,53 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   // Sign In submit
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email || !password) {
+      onShowToast('Please enter your email and password.');
+      return;
+    }
     setIsSubmitting(true);
-    setTimeout(() => {
+    try {
+      const res = await authService.login(email.trim(), password);
       setIsSubmitting(false);
-      onSuccess({
-        email: email || 'passenger@aeronexus.com',
-        name: email.split('@')[0] || 'Passenger',
-        role: 'customer',
-      });
-      onShowToast(`Welcome back, ${email.split('@')[0]}! Session authenticated.`);
+      const userObj = {
+        email: res.user.email,
+        name: res.user.name || email.split('@')[0],
+        role: (res.user.role || 'customer') as 'customer' | 'admin',
+      };
+      localStorage.setItem('aeronexus_customer_user', JSON.stringify(userObj));
+      onSuccess(userObj);
+      onShowToast(`Welcome back, ${userObj.name}! Session authenticated.`);
       onClose();
-    }, 600);
+    } catch (err: any) {
+      setIsSubmitting(false);
+      onShowToast(err.response?.data?.detail || err.message || 'Invalid email or password.');
+    }
   };
 
   // Sign Up submit -> Trigger OTP screen
-  const handleSignUp = (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !fullName || !password) {
       onShowToast('Please fill all registration fields.');
       return;
     }
     setIsSubmitting(true);
-    setTimeout(() => {
+    try {
+      const res = await authService.register(fullName.trim(), email.trim(), password);
       setIsSubmitting(false);
       setCountdown(600);
       setMode('otp');
-      onShowToast(`Verification code dispatched to ${email} via Gmail SMTP.`);
-    }, 700);
+      onShowToast(res.message || `Verification passcode dispatched to ${email}.`);
+    } catch (err: any) {
+      setIsSubmitting(false);
+      onShowToast(err.response?.data?.detail || err.message || 'Registration failed.');
+    }
   };
 
   // OTP Verification submit
-  const handleVerifyOtp = (e: React.FormEvent) => {
+  const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     const entered = otpCode.join('');
     if (entered.length < 6) {
@@ -95,16 +110,22 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
+    try {
+      const res = await authService.verifyOtp(email.trim(), entered);
       setIsSubmitting(false);
-      onSuccess({
-        email,
-        name: fullName || 'Passenger',
-        role: 'customer',
-      });
+      const userObj = {
+        email: res.user.email,
+        name: res.user.name || fullName || 'Passenger',
+        role: (res.user.role || 'customer') as 'customer' | 'admin',
+      };
+      localStorage.setItem('aeronexus_customer_user', JSON.stringify(userObj));
+      onSuccess(userObj);
       onShowToast('✅ Email verified! Your AeroNexus traveler account is activated.');
       onClose();
-    }, 800);
+    } catch (err: any) {
+      setIsSubmitting(false);
+      onShowToast(err.response?.data?.detail || err.message || 'Invalid or expired OTP code.');
+    }
   };
 
 const GOOGLE_CLIENT_ID =

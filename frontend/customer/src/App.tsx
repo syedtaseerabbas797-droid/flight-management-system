@@ -29,10 +29,10 @@ export default function App() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMyBookingsOpen, setIsMyBookingsOpen] = useState(false);
 
-  // Authenticated Passenger Session (Persisted in localStorage)
+  // Authenticated Passenger Session (Persisted in localStorage, null if unauthenticated)
   const [currentUser, setCurrentUser] = useState<{ email: string; name: string; role: 'customer' | 'admin' } | null>(() => {
     const saved = localStorage.getItem('aeronexus_customer_user');
-    return saved ? JSON.parse(saved) : { email: 'passenger@aeronexus.com', name: 'Syed Taseer Abbas', role: 'customer' };
+    return saved ? JSON.parse(saved) : null;
   });
 
   // Airline Standard Passenger Profile (Persisted in localStorage)
@@ -142,6 +142,7 @@ export default function App() {
   };
 
   const handleLogout = () => {
+    authService.logout();
     setCurrentUser(null);
     localStorage.removeItem('aeronexus_customer_user');
     triggerToast('Signed out of passenger session.');
@@ -238,11 +239,21 @@ export default function App() {
   };
 
   const handleHoldFare = (flight: Flight) => {
+    if (!currentUser) {
+      setIsAuthModalOpen(true);
+      triggerToast('🔒 Please Sign In or Create an Account to hold flight seats.');
+      return;
+    }
     setSelectedFlight(flight);
     setBookingMode('hold');
   };
 
   const handleConfirmTicket = (flight: Flight) => {
+    if (!currentUser) {
+      setIsAuthModalOpen(true);
+      triggerToast('🔒 Please Sign In or Create an Account to book flight tickets.');
+      return;
+    }
     setSelectedFlight(flight);
     setBookingMode('confirm');
   };
@@ -326,8 +337,22 @@ export default function App() {
         isAdminAuth={isAdminAuth}
         currentUser={currentUser}
         onOpenAuth={() => setIsAuthModalOpen(true)}
-        onOpenProfile={() => setIsProfileOpen(true)}
-        onOpenMyBookings={() => setIsMyBookingsOpen(true)}
+        onOpenProfile={() => {
+          if (!currentUser) {
+            setIsAuthModalOpen(true);
+            triggerToast('🔒 Please Sign In to access your passenger profile.');
+            return;
+          }
+          setIsProfileOpen(true);
+        }}
+        onOpenMyBookings={() => {
+          if (!currentUser) {
+            setIsAuthModalOpen(true);
+            triggerToast('🔒 Please Sign In to view your airline bookings.');
+            return;
+          }
+          setIsMyBookingsOpen(true);
+        }}
         onLogout={handleLogout}
         bookingsCount={userBookings.filter((b) => !b.status.startsWith('CANCELLED')).length}
         onShowToast={triggerToast}
@@ -336,6 +361,27 @@ export default function App() {
           setIsAiOpen(true);
         }}
       />
+
+      {/* Guest Passenger Notice Banner */}
+      {!currentUser && (
+        <div className="bg-[#001b3e] text-white px-4 py-2.5 text-xs border-b border-[#005cba]/30 animate-in fade-in duration-200">
+          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0"></span>
+              <span>
+                <strong>Passenger Account Required:</strong> Sign In or Create an Account to book live flights, hold fares for 15 minutes, and manage your boarding passes.
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsAuthModalOpen(true)}
+              className="px-3.5 py-1 bg-[#005cba] hover:bg-[#004b99] text-white rounded font-semibold text-xs transition-colors shrink-0 cursor-pointer shadow-xs whitespace-nowrap"
+            >
+              Sign In / Register
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Floating Notification Toast */}
       {toastMsg && (
