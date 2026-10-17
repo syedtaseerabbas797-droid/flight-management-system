@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { aviationStore, API_BASE_URL } from '../services/api';
+import { AdminUser } from '../services/adminAuthService';
 
 interface HeaderProps {
   currentView: 'admin' | 'client';
   onToggleView: (view: 'admin' | 'client') => void;
   onOpenSettings?: () => void;
+  currentAdmin?: AdminUser | null;
+  onLogout?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentView, onToggleView }) => {
+export const Header: React.FC<HeaderProps> = ({ currentView, onToggleView, currentAdmin, onLogout }) => {
   const [utcTime, setUtcTime] = useState<string>('--:--:-- UTC');
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [showNotificationToast, setShowNotificationToast] = useState<boolean>(false);
@@ -81,18 +84,28 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onToggleView }) => 
       {/* Session & Client Portal Switch */}
       <div className="flex items-center space-x-3">
         {/* Admin Officer Identification */}
-        <div className="flex items-center space-x-2 bg-[#f3f4f3] pl-2 pr-3 py-1 rounded border border-[#c4c6ce]/60">
+        <div className="flex items-center space-x-2 bg-[#f3f4f3] pl-2 pr-2.5 py-1 rounded border border-[#c4c6ce]/60">
           <div className="w-6 h-6 rounded bg-[#0a2540] text-white flex items-center justify-center font-mono text-[10px] font-bold">
-            VV
+            {currentAdmin?.email ? currentAdmin.email.slice(0, 2).toUpperCase() : 'SA'}
           </div>
           <div className="flex flex-col text-left">
-            <span className="text-[13px] text-[#000f22] font-semibold leading-tight font-body">
-              Capt. V. Vance
+            <span className="text-[12px] text-[#000f22] font-semibold leading-tight font-body truncate max-w-[140px]">
+              {currentAdmin?.email || 'admin@aeronexus.com'}
             </span>
-            <span className="font-mono text-[9px] text-[#43474d] leading-none">
-              CHIEF DISPATCHER
+            <span className="font-mono text-[9px] text-emerald-700 font-bold leading-none">
+              {currentAdmin?.role || 'SUPER_ADMIN'} (2FA)
             </span>
           </div>
+          {onLogout && (
+            <button
+              type="button"
+              onClick={onLogout}
+              title="Sign Out of Operations Console"
+              className="ml-1 p-1 hover:bg-white rounded text-[#74777e] hover:text-red-600 transition-colors cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[15px] block">logout</span>
+            </button>
+          )}
         </div>
 
         {/* Quick Switch to Client Portal / Admin Console */}

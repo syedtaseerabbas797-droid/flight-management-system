@@ -34,16 +34,20 @@ apiClient.interceptors.response.use(
 
 export const adminAuthService = {
   // 1. Admin Primary Login
-  async login(email: string, password: string): Promise<{ success: boolean; requires2FA: boolean; tempSessionToken?: string }> {
+  async login(email: string, password: string): Promise<{ success: boolean; requires2FA: boolean; tempSessionToken?: string; accessToken?: string; admin?: AdminUser }> {
     try {
       const res = await apiClient.post('/auth/admin/login', { email, password });
-      return res.data;
-    } catch {
-      return {
-        success: true,
-        requires2FA: true,
-        tempSessionToken: `temp-admin-session-${Date.now()}`,
-      };
+      const data = res.data;
+      if (!data.requires2FA && data.accessToken) {
+        localStorage.setItem(ADMIN_TOKEN_KEY, data.accessToken);
+        if (data.admin) {
+          localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(data.admin));
+        }
+      }
+      return data;
+    } catch (err: any) {
+      const msg = err.response?.data?.detail || err.message || 'Invalid administrative credentials.';
+      throw new Error(msg);
     }
   },
 
@@ -60,18 +64,25 @@ export const adminAuthService = {
         localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(data.admin));
       }
       return data;
-    } catch {
-      const mockAdmin: AdminUser = {
-        id: 'admin-super-01',
-        email: 'admin@aeronexus.com',
-        role: 'SUPER_ADMIN',
-        twoFactorEnabled: true,
-      };
-      const token = `admin-jwt-l4-${Date.now()}`;
-      localStorage.setItem(ADMIN_TOKEN_KEY, token);
-      localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(mockAdmin));
-      return { success: true, accessToken: token, admin: mockAdmin };
+    } catch (err: any) {
+      const msg = err.response?.data?.detail || err.message || 'Invalid 2FA passcode.';
+      throw new Error(msg);
     }
+  },
+
+  // Helper: Get currently logged in admin user
+  getCurrentAdmin(): AdminUser | null {
+    try {
+      const stored = localStorage.getItem(ADMIN_USER_KEY);
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  },
+
+  // Helper: Check if active admin token exists
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem(ADMIN_TOKEN_KEY);
   },
 
   // 3. Fetch Admin Audit Logs from Backend

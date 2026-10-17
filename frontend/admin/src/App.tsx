@@ -11,8 +11,9 @@ import { ManifestModal } from './components/ManifestModal';
 import { ClientPortal } from './components/ClientPortal';
 import { AiConcierge } from './components/AiConcierge';
 import { AuditDesk } from './components/AuditDesk';
-import { Flight } from './types/aviation';
 import { aviationStore, API_BASE_URL } from './services/api';
+import { AdminAuthModal } from './components/AdminAuthModal';
+import { adminAuthService, AdminUser } from './services/adminAuthService';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'admin' | 'client'>('admin');
@@ -25,6 +26,10 @@ export default function App() {
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [manifestFlight, setManifestFlight] = useState<Flight | null>(null);
   const [isKpiCollapsed, setIsKpiCollapsed] = useState(false);
+
+  // Authentication Gatekeeper State
+  const [currentAdmin, setCurrentAdmin] = useState<AdminUser | null>(() => adminAuthService.getCurrentAdmin());
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(() => !adminAuthService.isAuthenticated());
 
   // Load flights from store
   const loadFlights = async () => {
@@ -39,8 +44,9 @@ export default function App() {
   };
 
   useEffect(() => {
-    loadFlights();
-
+    if (adminAuthService.isAuthenticated()) {
+      loadFlights();
+    }
     const handleCustomTelemetry = () => {
       setActiveTab('telemetry');
     };
@@ -48,12 +54,26 @@ export default function App() {
     return () => window.removeEventListener('aeronexus:open-telemetry', handleCustomTelemetry);
   }, []);
 
+  const handleAuthSuccess = (admin: AdminUser) => {
+    setCurrentAdmin(admin);
+    setIsAuthModalOpen(false);
+    loadFlights();
+  };
+
+  const handleLogout = () => {
+    adminAuthService.logout();
+    setCurrentAdmin(null);
+    setIsAuthModalOpen(true);
+  };
+
   return (
     <div className="h-full flex flex-col font-body text-[#1a1c1c] bg-[#f9f9f8] antialiased overflow-hidden select-text">
       {/* ================= TOP OPERATIONS MASTER HEADER ================= */}
       <Header
         currentView={currentView}
         onToggleView={(view) => setCurrentView(view)}
+        currentAdmin={currentAdmin}
+        onLogout={handleLogout}
       />
 
       {/* Main Screen Router: Admin Console vs Client Portal */}
@@ -224,6 +244,12 @@ export default function App() {
 
       {/* ================= FLOATING AI CONCIERGE WIDGET ================= */}
       <AiConcierge />
+
+      {/* ================= L4 SECURITY CLEARANCE GATE ================= */}
+      <AdminAuthModal
+        isOpen={isAuthModalOpen}
+        onSuccess={handleAuthSuccess}
+      />
     </div>
   );
 }
